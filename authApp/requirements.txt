@@ -1,0 +1,30 @@
+# app
+fastapi
+uvicorn
+pydantic
+email-validator
+
+# db
+psycopg2-binary
+
+databases[postgresql]
+SQLAlchemy
+alembic
+starlette
+passlib[bcrypt]
+python-jose[cryptography]
+
+phonenumbers
+python-multipart
+pika
+requests
+yoyo-migrations
+python-dotenv
+
+#dev
+
+pytest # testing framework
+pytest-asyncio #  provides utilities for testing asynchronous code provides utilities for testing asynchronous code
+httpx #  provides an async request client for testing endpoints
+asgi-lifespan # allows testing async applications without having to spin up an ASGI server
+
