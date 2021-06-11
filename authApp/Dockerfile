@@ -1,4 +1,4 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8-slim
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 WORKDIR /authApp
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONBUFFERED 1

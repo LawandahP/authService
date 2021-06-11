@@ -13,7 +13,7 @@ class JWTMeta(CoreModel):
 class JWTCreds(CoreModel):
     # How we'll identify users
     sub: EmailStr
-    username: str
+    # username: str
 
 class JWTPayload(JWTMeta, JWTCreds):
     

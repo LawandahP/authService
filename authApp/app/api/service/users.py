@@ -12,7 +12,6 @@ def is_user_present(user_type: str):
 
   try:
     r = httpx.get(f'{url}')
-    print(r.json())
     return r.json() if r.status_code == 200 else r.status_code
     
   except httpx.TimeoutException as t:
@@ -23,8 +22,10 @@ def is_user_present(user_type: str):
     return r
 
 
-h = is_user_present("tenants")
-print(h)
+# h = is_user_present("tenants")
+# for val in h:
+#   print(val["email"])
+
 
 
 # get login details fom the login endpoint

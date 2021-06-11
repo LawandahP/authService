@@ -1,51 +1,52 @@
-from app.api.crudUtils.authentication import AuthService
-from app.schema.token import AccessToken
-from fastapi import APIRouter, Request
+from fastapi.security import OAuth2PasswordBearer
+from fastapi import APIRouter, Request, HTTPException
 from pydantic import EmailStr
+from starlette import status
+import os
+
 from app.api.service.users import is_user_present
 from app.schema.login import UserLogin
-from fastapi.security import OAuth2PasswordBearer
+from app.api.service.authentication import AuthService, verify_password
+from app.schema.token import AccessToken
+
 
 
 api = APIRouter()
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login')
+
+# async def get_user_by_email():
 
 
+async def authenticate_user(email: EmailStr, password: str):
+
+  users = is_user_present("tenants")
+  # print(users)
+  
+  for user in users:
+    if user["email"] == email:
+      if verify_password(password, user["password"]):
+        print(user)
+        return user
+      else:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect Password and or Email. Please Try Again"
+      )
+    
+
+    
 
 
-# @app.post("/login", response_model=UserPublic)
-# async def tenantLogin(login: UserLogin):
-#     user = await tenant.authenticate_user(email=login.email, password=login.pas>
-#     if not user:
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Authentication was unsuccessful.",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-
-#     return user
-
-
-# async def authenticate_user(email: EmailStr, password: str):
-# user = await read_user_by_email(email)
-# if not user:
-#     raise HTTPException(
-#         status_code=status.HTTP_404_NOT_FOUND,
-#         detail=f"no user with email: {email} found"
-#     )
-# if not verify_password(password=password, hashed_password=user.password):
-#     raise HTTPException(
-#         status_code=status.HTTP_400_BAD_REQUEST,
-#         detail="Incorrect Password. Please Try Again"
-#     )
-# return user
-
-
-
-@api.post("/auth/token")
-async def generateLoginToken(request: Request):
-  get_data = request.json()
-  print(get_data)
-  access_token = AccessToken(access_token=AuthService.create_access_token_for_user(user=get_data), token_type="bearer")
+@api.post("/auth/login")
+async def generateLoginToken(user: UserLogin):
+  user = await authenticate_user(email=user.email, password=user.password)
+  # if not user:
+  #     raise HTTPException(
+  #         status_code=status.HTTP_401_UNAUTHORIZED,
+  #         detail="Authentication was unsuccessful.",
+  #         headers={"WWW-Authenticate": "Bearer"},
+  #     )
+  access_token = AccessToken(access_token=AuthService.create_access_token_for_user(user=user), token_type="bearer")
   return access_token
+
