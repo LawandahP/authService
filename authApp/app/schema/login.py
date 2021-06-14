@@ -1,19 +1,21 @@
+from datetime import datetime
+from typing import Optional
 from pydantic import EmailStr, validator
 import string
 from app.schema.base import CoreModel
 
 
-def validate_password(password: str) -> str:
-  allowed = string.ascii_letters + string.digits + "-" + "_"
-  assert all(char in allowed for char in password), "Invalid characters in username."
-  assert len(password) >= 6, "Password must be 6 characters or more."
-  return password
 
 
-class UserLogin(CoreModel):
-  email: EmailStr
-  password: str
+# class UserPublic(CoreModel):
+#   id: Optional[int]
+#   username: Optional[str]
+#   full_name: Optional[str]
+#   email: Optional[EmailStr]
+#   is_active: bool = True
+#   is_tenant: bool = True
+#   phone_number: Optional[str]
+#   created_at: Optional[datetime]
+#   updated_at: Optional[datetime]
 
-  @validator("password", pre=True)
-  def username_is_valid(cls, password: str) -> str:
-    return validate_password(password)
+ 

@@ -4,7 +4,8 @@ import httpx
 
 
 
-# Checks if user is present by calling the user-service api get_all endpoint
+# Calls the user-service api get_all endpoint
+
 def is_user_present(user_type: str):
 
   USER_SERVICE_HOST_URL = f'http://user-service:8000/{user_type}/get_all'
@@ -28,5 +29,5 @@ def is_user_present(user_type: str):
 
 
 
-# get login details fom the login endpoint
+
 
