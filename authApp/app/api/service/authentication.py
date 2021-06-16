@@ -12,6 +12,8 @@ from app.schema.token import JWTMeta, JWTCreds, JWTPayload
 
 from passlib.context import CryptContext
 
+
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login')
 

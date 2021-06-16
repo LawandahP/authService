@@ -19,7 +19,7 @@ api = APIRouter()
 
 
 @api.post("/auth/login", response_model=AccessToken, name="Generate token on successfull sign in")
-async def generateLoginToken(form_data: OAuth2PasswordRequestForm = Depends()):
+async def generateLoginToken(form_data: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestForm)):
   user = AuthService.authenticate_user(email=form_data.username, password=form_data.password)
   if not user:
     raise HTTPException(
